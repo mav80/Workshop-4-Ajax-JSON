@@ -1,0 +1,17 @@
+Method POST - adding new data. Creates new book:
+
+curl -X POST -i -H "Content-Type: application/json" -d '{"isbn":"34321","title":"Thinking in Java", "publisher":"Helion","type":"programming", "author":"Bruce Eckel"}' http://localhost:8282/books/add
+
+
+
+
+Method PUT - update data -  changes book of id = 1, updates isbn number:
+
+curl -X PUT -i -H "Content-Type: application/json" -d '{"id":1,"isbn":"32222","title":"Thinking in Java", "publisher":"Helion","type":"programming", "author":"Bruce Eckel"}' http://localhost:8282/books/1/update
+
+
+
+
+Method DELETE - deleting data. Deletes book of id = 1:
+
+curl -X DELETE -i http://localhost:8282/books/remove/1
