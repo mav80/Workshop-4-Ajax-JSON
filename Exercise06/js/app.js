@@ -109,7 +109,7 @@
                 error: function( xhr, status,
                 errorThrown ) {alert('Wystąpił błąd, nie utworzono książki.')},
                 complete: function( xhr, status ){} 
-                });
+            });
     
             e.preventDefault(); //without it an error is thrown while sensing json
             //this.reset(); //resets the form to be empty again - not necessary since page reloads    
@@ -128,6 +128,24 @@
 
             var deleteLinks = $('.deleteLink');
             console.log(deleteLinks);
+
+
+            for (var i = 0; i < deleteLinks.length; i++) {
+                deleteLinks[i].addEventListener('click', function () {
+
+                    console.log(this.id);
+
+                    $.ajax({
+                        url: "http://localhost:8282/books/remove/"+this.id,
+                        type: "DELETE",
+                        success: function( json ) {alert('Książka została usunięta.'), location.reload()}, //here we reload the page after book created successfuly
+                        error: function( xhr, status,
+                        errorThrown ) {alert('Wystąpił błąd, nie skasowano książki.')},
+                        complete: function( xhr, status ){} 
+                    });
+
+                });
+            }
 
         }, 500);
     
