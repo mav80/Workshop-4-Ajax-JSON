@@ -24,7 +24,7 @@
                         //console.log(book);
                         //$(bookList).append('<li>' + json[book].title + '</li>').append('<div>div testowy</div>');
                         //$(bookList).append($('<li>', {'id': json[book].id, text: json[book].title})).append($('<div>', {text:'opis książki o id ' + json[book].id, style: 'display: none'}));
-                        $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<div>', {text:' ', }));
+                        $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
                     }
                     
                 },
@@ -52,7 +52,7 @@
                 bookTitles[i].addEventListener('mouseover', function () {
     
                     var allDivs = $('div');
-                    var divToUpdate = this.nextElementSibling;
+                    var divToUpdate = this.nextElementSibling.nextElementSibling;
     
                     allDivs.text(' ');
     
@@ -112,61 +112,26 @@
                 });
     
             e.preventDefault(); //without it an error is thrown while sensing json
-            //this.reset(); //resets the form to be empty again - not necessary since page reloads   
+            //this.reset(); //resets the form to be empty again - not necessary since page reloads    
     
         }); 
+
+
+
+
+
+
+
+        //exercise 6
+
+        setTimeout(function(){
+
+            var deleteLinks = $('.deleteLink');
+            console.log(deleteLinks);
+
+        }, 500);
     
 
     
      }); //end of safety zone
 
-
-
-
-
-     //some code useful for rebuilding book list instead of reloading a page
-
-     //$('#books').find('li').remove();
-     //$('#books').find('div').remove();
-
-     // setTimeout(function(){ //we need to give the server some time to accept new book, otherwise it will show up only after page refresh and the script below won't show it
-
-     //     buildBookList();
-
-     // }, 1000);
-
-     // console.log('Nowy event po kliknięciu przycisku');
-
-     // setTimeout(function(){                //used for delay to let the html be prepared by the code from exercise 3
-         
-     //     var bookTitleso = null;
-     //     bookTitleso = $('.bookTitle');
-     //     console.log(bookTitleso);
-         
-
-     //     for (var i = 0; i < bookTitleso.length; i++) {
-     //         bookTitleso[i].addEventListener('mouseover', function () {
-
-     //             var allDivs = $('div');
-     //             var divToUpdate = this.nextElementSibling;
-
-     //             allDivs.text(' ');
-
-     //             $.ajax({
-     //                 url: "http://localhost:8282/books/"+this.id,
-     //                 data: {},
-     //                 type: "GET",
-     //                 dataType : "json",
-     //                 success: function( json ) {
-     //                     divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
-     //                     //$(divToUpdate).css('display', 'block');
-     //                 },
-     //                 error: function( xhr, status,
-     //                 errorThrown ) {alert("Wystąpił jakiś błąd!")},
-     //                 complete: function( xhr, status ){}
-     //             });
-
-     //         });
-     //     }
-
-     // }, 500);

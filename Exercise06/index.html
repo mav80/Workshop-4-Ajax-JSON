@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="css/style.css">
+
+        <script
+        src="http://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+        <script src="js/app.js"></script>
+    </head>
+    <body>
+
+        <h1>Warsztat 4 zadanie 6</h1>
+
+        <h3>W katalogu / w pliku index.html:<br><br>
+
+            Obok każdej książki wyświetl link służący do usunięcia książki.<br><br>
+
+            Podepnij do niego funkcję click.<br><br>
+
+            Funkcja ta ma przesyłać AJAX-em zapytanie DELETE na endpoint /books/{id-książki}<br><br>
+
+            Potem ma załadować od nowa wszystkie książki (żeby nie wyświetlać usuniętej).<br><br></h3>
+
+       
+       
+       <form id="newBook">
+           <input type="text" name="title" placeholder="tytuł"><br>
+           <input type="text" name="author" placeholder="autor"><br>
+           <input type="text" name="publisher" placeholder="wydawca"><br>
+           <input type="text" name="type" placeholder="gatunek"><br>
+           <input type="number" name="isbn" placeholder="numer isbn"><br>
+           <input type="submit" value="Utwórz nową książkę">
+       </form>
+       
+       
+       
+            <ul id="books"></ul>
+
+
+    </body>
+</html>
