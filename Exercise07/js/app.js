@@ -2,6 +2,8 @@
  $(function(){
     
          console.log('DOM załadowany.');
+
+         var serverUrl = "http://localhost:8282/books/";
     
     
     
@@ -11,30 +13,47 @@
          var bookList = $('#books');
          //console.log(books);
 
-         function buildBookList() {
+        //  function buildBookList() {
 
-            $.ajax({
-                url: "http://localhost:8282/books/",
-                data: {},
-                type: "GET",
-                dataType : "json",
-                success: function( json ) {
-                    //console.log(json);
-                    for(let book in json) {
-                        //console.log(book);
-                        //$(bookList).append('<li>' + json[book].title + '</li>').append('<div>div testowy</div>');
-                        //$(bookList).append($('<li>', {'id': json[book].id, text: json[book].title})).append($('<div>', {text:'opis książki o id ' + json[book].id, style: 'display: none'}));
-                        $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
-                    }
+        //     $.ajax({
+        //         url: "http://localhost:8282/books/",
+        //         data: {},
+        //         type: "GET",
+        //         dataType : "json",
+        //         success: function( json ) {
+        //             //console.log(json);
+        //             for(let book in json) {
+        //                 //console.log(book);
+        //                 //$(bookList).append('<li>' + json[book].title + '</li>').append('<div>div testowy</div>');
+        //                 //$(bookList).append($('<li>', {'id': json[book].id, text: json[book].title})).append($('<div>', {text:'opis książki o id ' + json[book].id, style: 'display: none'}));
+        //                 $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
+        //             }
                     
-                },
-                error: function( xhr, status,
-                errorThrown ) {alert("Wystąpił jakiś błąd!")},
-                complete: function( xhr, status ){}
-            });
-         }
+        //         },
+        //         error: function( xhr, status,
+        //         errorThrown ) {alert("Wystąpił jakiś błąd!")},
+        //         complete: function( xhr, status ){}
+        //     });
+        //  }
 
-         buildBookList();
+         //buildBookList(); original call from from exercise 3
+
+         var functionUrl = serverUrl;
+         var functionType = "GET";
+         var functionSuccess = function(json) {
+            for(let book in json) {
+                $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
+            }
+         }
+         var functionError = function() {
+            alert("Wystąpił jakiś błąd!");
+         };
+
+
+
+         doAjaxJSON(functionUrl, functionType, functionSuccess, functionError); //use function from exercise 7 instead of 3
+
+
     
 
     
@@ -55,20 +74,34 @@
                     var divToUpdate = this.nextElementSibling.nextElementSibling;
     
                     allDivs.text(' ');
+
+                    var functionUrl = serverUrl+this.id;
+                    var functionType = "GET";
+                    var functionSuccess = function(json) {
+                        divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
+                    }
+                    var functionError = function() {
+                       alert("Wystąpił jakiś błąd!");
+                    };
+
+
+                    doAjaxJSON(functionUrl, functionType, functionSuccess, functionError); //call fuction from exercise 7
+
+
     
-                    $.ajax({
-                        url: "http://localhost:8282/books/"+this.id,
-                        data: {},
-                        type: "GET",
-                        dataType : "json",
-                        success: function( json ) {
-                            divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
-                            //$(divToUpdate).css('display', 'block');
-                        },
-                        error: function( xhr, status,
-                        errorThrown ) {alert("Wystąpił jakiś błąd!")},
-                        complete: function( xhr, status ){}
-                    });
+                    // $.ajax({
+                    //     url: "http://localhost:8282/books/"+this.id,
+                    //     data: {},
+                    //     type: "GET",
+                    //     dataType : "json",
+                    //     success: function( json ) {
+                    //         divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
+                    //         //$(divToUpdate).css('display', 'block');
+                    //     },
+                    //     error: function( xhr, status,
+                    //     errorThrown ) {alert("Wystąpił jakiś błąd!")},
+                    //     complete: function( xhr, status ){}
+                    // });
     
                 });
             }
@@ -148,6 +181,49 @@
             }
 
         }, 500);
+
+
+
+
+
+        //exercise 7
+
+        function doAjaxJSON(functionUrl, functionType, functionSuccess, functionError, functionComplete, functionData, functionHeaders) {
+            console.log("Wywołanie nowej funkcji, jej argumenty to:");
+            console.log(arguments);
+            console.log("Wywołanie functionError:");
+            console.log(functionError);
+
+            $.ajax({
+                headers: { functionHeaders },
+                url: functionUrl,
+                data: { functionData },
+                type: functionType,
+                dataType : "json",
+                success: function( json ) { functionSuccess(json) },
+                error: function( xhr, status,
+                errorThrown ) { functionError(); },
+                complete: function( xhr, status ){}
+            });
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
     
 
     
