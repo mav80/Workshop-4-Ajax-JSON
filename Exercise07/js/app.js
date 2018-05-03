@@ -128,21 +128,42 @@
     
             console.log('Zawartość nowej książki to: ');
             console.log(newBook);
+
+
+
+            var functionUrl = serverUrl+'add';
+            var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+            var functionData = JSON.stringify(newBook);
+            var functionType = "POST";
+            var functionComplete = "";
+            var functionSuccess = function() {
+                alert('Nowa książka została poprawnie utworzona.'), location.reload();
+            }
+            var functionError = function() {
+               alert("Wystąpił jakiś błąd!");
+            };
+
+
+
+            doAjaxJSON(functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) //call fuction from exercise 7
+
+
+
+
+
+
     
-            $.ajax({
-                headers: { 
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json' 
-                },
-                url: "http://localhost:8282/books/add",
-                data: JSON.stringify(newBook),
-                type: "POST",
-                dataType : "json",
-                success: function( json ) {alert('Nowa książka została poprawnie utworzona.'), location.reload()}, //here we reload the page after book created successfuly
-                error: function( xhr, status,
-                errorThrown ) {alert('Wystąpił błąd, nie utworzono książki.')},
-                complete: function( xhr, status ){} 
-            });
+            // $.ajax({
+            //     headers: functionHeaders,
+            //     url: functionUrl,
+            //     data: functionData,
+            //     type: functionType,
+            //     dataType : "json",
+            //     success: function( json ) { functionSuccess() }, //here we reload the page after book created successfuly
+            //     error: function( xhr, status,
+            //     errorThrown ) { functionError },
+            //     complete: function( xhr, status ){ functionComplete } 
+            // });
     
             e.preventDefault(); //without it an error is thrown while sensing json
             //this.reset(); //resets the form to be empty again - not necessary since page reloads    
@@ -188,22 +209,22 @@
 
         //exercise 7
 
-        function doAjaxJSON(functionUrl, functionType, functionSuccess, functionError, functionComplete, functionData, functionHeaders) {
+        function doAjaxJSON(functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) {
             console.log("Wywołanie nowej funkcji, jej argumenty to:");
             console.log(arguments);
             console.log("Wywołanie functionError:");
             console.log(functionError);
 
             $.ajax({
-                headers: { functionHeaders },
+                headers: functionHeaders,
                 url: functionUrl,
-                data: { functionData },
+                data: functionData,
                 type: functionType,
                 dataType : "json",
                 success: function( json ) { functionSuccess(json) },
                 error: function( xhr, status,
                 errorThrown ) { functionError(); },
-                complete: function( xhr, status ){}
+                complete: function( xhr, status ){ }
             });
 
 
