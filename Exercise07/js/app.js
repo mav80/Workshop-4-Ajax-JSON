@@ -189,14 +189,38 @@
 
                     console.log(this.id);
 
-                    $.ajax({
-                        url: "http://localhost:8282/books/remove/"+this.id,
-                        type: "DELETE",
-                        success: function( json ) {alert('Książka została usunięta.'), location.reload()}, //here we reload the page after book created successfuly
-                        error: function( xhr, status,
-                        errorThrown ) {alert('Wystąpił błąd, nie skasowano książki.')},
-                        complete: function( xhr, status ){} 
-                    });
+
+                    var functionUrl = serverUrl+'remove/'+this.id;
+                    var functionType = "DELETE";
+                    var functionSuccess = function() {
+                        alert('Książka została usunięta.'), location.reload();
+                    };
+                    var functionError = function() {
+                        alert('Wystąpił błąd, ale książka została usunięta.'), location.reload();
+                    };
+                    var functionData = JSON.stringify(newBook);
+                    var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+
+
+
+
+
+
+                    doAjaxJSON(functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
+
+
+
+
+
+
+                    // $.ajax({
+                    //     url: functionUrl,
+                    //     type: functionType,
+                    //     success: function( json ) { functionSuccess() }, //here we reload the page after book is deleted successfuly
+                    //     error: function( xhr, status,
+                    //     errorThrown ) { functionError() },
+                    //     complete: function( xhr, status ){} 
+                    // });
 
                 });
             }
