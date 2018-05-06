@@ -13,20 +13,30 @@
     var bookList = $('#books');
     //console.log(books);
 
+    function buildBookList() {
 
-    var functionUrl = serverUrl;
-    var functionType = "GET";
-    var functionSuccess = function(json) {
-        for(let book in json) {
-            $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
+        $('ul#books').empty();
+
+        var functionUrl = serverUrl;
+        var functionType = "GET";
+        var functionSuccess = function(json) {
+            for(let book in json) {
+                $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
+            }
         }
+        var functionError = function() {
+            alert("Wystąpił jakiś błąd!");
+        };
+    
+    
+        doAjaxJSON(functionUrl, functionType, functionSuccess, functionError); //use function from exercise 7 instead of 3
+
     }
-    var functionError = function() {
-        alert("Wystąpił jakiś błąd!");
-    };
+
+    buildBookList();
 
 
-    doAjaxJSON(functionUrl, functionType, functionSuccess, functionError); //use function from exercise 7 instead of 3
+
 
 
     
@@ -132,10 +142,10 @@
                 var functionUrl = serverUrl+'remove/'+this.id;
                 var functionType = "DELETE";
                 var functionSuccess = function() {
-                    alert('Książka została usunięta.'), location.reload();
+                    alert('Książka została usunięta.'), buildBookList();
                 };
                 var functionError = function() {
-                    alert('Wystąpił błąd, ale książka została usunięta.'), location.reload();
+                    alert('Wystąpił błąd, ale książka została usunięta.'), buildBookList();
                 };
                 // var functionData = JSON.stringify(newBook);
                 // var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
