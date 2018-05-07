@@ -21,7 +21,8 @@
         var functionType = "GET";
         var functionSuccess = function(json) {
             for(let book in json) {
-                $(bookList).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', }));
+                $(bookList).append($('<span>', {'class': 'spanWholeBook', 'id': json[book].id}));
+                $('span#' + json[book].id).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', })).append($('<div>'));
             }
         }
         var functionError = function() {
@@ -46,36 +47,44 @@
     
     
     //exercise 4
+
+    function ajaxOnMouseover() {
+
     
-    setTimeout(function(){                //used for delay to let the html be prepared by the code from exercise 4
     
-        var bookTitles = $('.bookTitle');
-        //console.log(bookTitles);
+        setTimeout(function(){                //used for delay to let the html be prepared by the code from exercise 4
         
-        for (var i = 0; i < bookTitles.length; i++) {
-            bookTitles[i].addEventListener('mouseover', function () {
+            var bookTitles = $('.bookTitle');
+            //console.log(bookTitles);
+            
+            for (var i = 0; i < bookTitles.length; i++) {
+                bookTitles[i].addEventListener('mouseover', function () {
+            
+                    var allDivs = $('div');
+                    var divToUpdate = this.nextElementSibling.nextElementSibling;
+
+                    allDivs.text(' ');
+
+                    var functionUrl = serverUrl+this.id;
+                    var functionType = "GET";
+                    var functionSuccess = function(json) {
+                        divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
+                    }
+                    var functionError = function() {
+                        alert("Wystąpił jakiś błąd!");
+                    };
+
+
+                    doAjaxJSON(functionUrl, functionType, functionSuccess, functionError); //call fuction from exercise 7
+            
+                });
+            }
         
-                var allDivs = $('div');
-                var divToUpdate = this.nextElementSibling.nextElementSibling;
+        }, 500);
 
-                allDivs.text(' ');
+    }
 
-                var functionUrl = serverUrl+this.id;
-                var functionType = "GET";
-                var functionSuccess = function(json) {
-                    divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
-                }
-                var functionError = function() {
-                    alert("Wystąpił jakiś błąd!");
-                };
-
-
-                doAjaxJSON(functionUrl, functionType, functionSuccess, functionError); //call fuction from exercise 7
-        
-            });
-        }
-    
-    }, 500);
+    ajaxOnMouseover();
     
     
     
@@ -106,7 +115,7 @@
         var functionType = "POST";
         var functionComplete = "";
         var functionSuccess = function() {
-            alert('Nowa książka została poprawnie utworzona.'), location.reload();
+            alert('Nowa książka została poprawnie utworzona.'), buildBookList(), ajaxOnMouseover(), ajaxOnDelete();
         }
         var functionError = function() {
             alert("Wystąpił jakiś błąd!");
@@ -114,7 +123,7 @@
 
         doAjaxJSON(functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) //call fuction from exercise 7
         
-        e.preventDefault(); //without it an error is thrown while sensing json
+        e.preventDefault(); //without it an error is thrown while sending json
         //this.reset(); //resets the form to be empty again - not necessary since page reloads    
     
     }); 
@@ -127,36 +136,45 @@
 
     //exercise 6
 
-    setTimeout(function(){
+    function ajaxOnDelete() {
 
-        var deleteLinks = $('.deleteLink');
-        //console.log(deleteLinks);
+        setTimeout(function(){
 
-
-        for (var i = 0; i < deleteLinks.length; i++) {
-            deleteLinks[i].addEventListener('click', function () {
-
-                // console.log(this.id);
+            var deleteLinks = $('.deleteLink');
+            //console.log(deleteLinks);
 
 
-                var functionUrl = serverUrl+'remove/'+this.id;
-                var functionType = "DELETE";
-                var functionSuccess = function() {
-                    alert('Książka została usunięta.'), buildBookList();
-                };
-                var functionError = function() {
-                    alert('Wystąpił błąd, ale książka została usunięta.'), buildBookList();
-                };
-                // var functionData = JSON.stringify(newBook);
-                // var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+            for (var i = 0; i < deleteLinks.length; i++) {
+                deleteLinks[i].addEventListener('click', function (e) {
+
+                    //console.log(this.id);
+                    var elementId = this.id;
+
+                    var functionUrl = serverUrl+'remove/'+this.id;
+                    var functionType = "DELETE";
+                    var functionSuccess = function() {
+                        alert('Książka została usunięta.'), $('span.spanWholeBook#'+elementId).remove();
+                    };
+                    var functionError = function() {
+                        alert('Książka została usunięta (b).'),  $('span.spanWholeBook#'+elementId).remove();
+                    };
+                    // var functionData = JSON.stringify(newBook);
+                    // var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+
+                    doAjaxJSON(functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
+                    e.preventDefault(); //without it an error is thrown while sending json
+
+                });
+            }
+
+        }, 500);
+
+    }
+
+    ajaxOnDelete();
 
 
-                doAjaxJSON(functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
-
-            });
-        }
-
-    }, 500);
+    
 
 
 
