@@ -22,7 +22,6 @@
         var functionType = "GET";
         var functionSuccess = function(json) {
             for(let book in json) {
-                console.log(json[book]);
                 $(bookList).append($('<span>', {'class': 'spanWholeBook', 'id': json[book].id}));
                 $('span#' + json[book].id).append($('<li>', {'style': 'display: inline', 'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).
                 append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: ' usuń książkę '})).
@@ -223,10 +222,6 @@
         setTimeout(function(){
             
             var editLinks = $('.editLink');
-            console.log(editLinks);
-
-            //var bookToEdit = {};
-
 
             for (var i = 0; i < editLinks.length; i++) {
                 editLinks[i].addEventListener('click', function (e) {
@@ -235,9 +230,9 @@
                     var functionUrl = serverUrl+this.id;
                     var functionType = "GET";
                     var functionSuccess = function(json) {
-                        console.log("Wysłanie do edycji udane.");
-                        //bookToEdit = JSON.parse(json);
-                        console.log(json);
+                        $('html,body').scrollTop(0);
+                        //console.log("Wysłanie do edycji udane.");
+                        //console.log(json);
 
                         $(editBookForm).find('input[type!=submit]').each(function (index, elem) {
                             elem.value = json[elem.name];
@@ -295,7 +290,7 @@
         
 
         e.preventDefault(); //without it an error is thrown while sending json
-       //this.reset(); //resets the form to be empty again - not necessary if page reloads 
+        this.reset(); //resets the form to be empty again - not necessary if page reloads 
     
     }); 
 
