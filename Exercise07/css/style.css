@@ -1,9 +1,18 @@
 li {
     font-weight: 900;
+    font-size: large;
     color: blue;
 }
 
 div
 {
     height: 20px;
+}
+
+.deleteLink {
+    font-size: small;
+}
+
+.editLink {
+    font-size: small;
 }

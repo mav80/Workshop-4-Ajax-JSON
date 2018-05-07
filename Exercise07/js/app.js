@@ -22,7 +22,10 @@
         var functionSuccess = function(json) {
             for(let book in json) {
                 $(bookList).append($('<span>', {'class': 'spanWholeBook', 'id': json[book].id}));
-                $('span#' + json[book].id).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {'class': 'jsonText', text:' ', })).append($('<div>',  {'class': 'separator'}));
+                $('span#' + json[book].id).append($('<li>', {'style': 'display: inline', 'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).
+                append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: ' usuń książkę '})).
+                append($('<div>', {'class': 'jsonText', text:' ', })).
+                append($('<div>',  {'class': 'separator'}));
             }
         }
         var functionError = function() {
