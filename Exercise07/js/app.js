@@ -22,7 +22,7 @@
         var functionSuccess = function(json) {
             for(let book in json) {
                 $(bookList).append($('<span>', {'class': 'spanWholeBook', 'id': json[book].id}));
-                $('span#' + json[book].id).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {text:' ', })).append($('<div>'));
+                $('span#' + json[book].id).append($('<li>', {'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: 'usuń książkę'})).append($('<div>', {'class': 'jsonText', text:' ', })).append($('<div>',  {'class': 'separator'}));
             }
         }
         var functionError = function() {
@@ -61,7 +61,8 @@
                 bookTitles[i].addEventListener('mouseover', function () {
             
                     var allDivs = $('div');
-                    var divToUpdate = this.nextElementSibling.nextElementSibling;
+                    //var divToUpdate = this.nextElementSibling.nextElementSibling;
+                    var divToUpdate = $(this).siblings('.jsonText')[0];
 
                     allDivs.text(' ');
 
