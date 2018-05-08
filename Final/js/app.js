@@ -33,7 +33,7 @@
                         }
                     }
                     var functionError = function() {
-                        alert("Wystąpił jakiś błąd!");
+                        alert("Wystąpił błąd podczas budowania listy książek!");
                     };
                 
                 
@@ -119,7 +119,6 @@
 
             //console.log('Zawartość nowej książki to: ');
             //console.log(newBook);
-
 
             var functionDataType = "json";
             var functionUrl = serverUrl+'add';
@@ -297,7 +296,7 @@
             /*alert('Książka została poprawnie zmieniona.')*/  tempAlert($('ul#books'), "Książkę poprawnie zmieniono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
         }
         var functionError = function() {
-            alert("Wystąpił jakiś błąd!");
+            alert("Wystąpił błąd podczas edycji książki! Nieprawidłowe id?");
         };
 
         doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) //call fuction from exercise 7
@@ -334,7 +333,7 @@
             }, duration);
 
         } else {
-            console.log("Funkcja tempAlert: nie można znaleć wskazanego elementu.");
+            console.log("Funkcja tempAlert: nie można znaleźć wskazanego elementu.");
         }   
 
     }
