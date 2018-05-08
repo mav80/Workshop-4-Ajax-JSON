@@ -24,3 +24,8 @@ body {
 .jsonText {
     font-size: 0.8em;
 }
+
+.tempAlert {
+    font-size: 0.8em;
+    color: teal;
+}

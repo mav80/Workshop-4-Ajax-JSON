@@ -122,7 +122,7 @@
         var functionType = "POST";
         var functionComplete = "";
         var functionSuccess = function() {
-            alert('Nowa książka została poprawnie utworzona.'), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();;
+            /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();;
         }
         var functionError = function() {
             alert("Wystąpił jakiś błąd!");
@@ -161,7 +161,7 @@
                     var functionUrl = serverUrl+'remove/'+this.id;
                     var functionType = "DELETE";
                     var functionSuccess = function() {
-                        alert('Książka została poprawnie usunięta.'), $('span.spanWholeBook#'+elementId).fadeOut();
+                        /*alert('Książka została poprawnie usunięta.'),*/ $('span.spanWholeBook#'+elementId).fadeOut();
                     };
                     var functionError = function() {
                         alert('Wystąpił jakiś błąd!');
@@ -172,7 +172,9 @@
                     doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
                     e.preventDefault(); //without it an error is thrown while sending json
 
-                });
+                }, { // here we make sure delete button can be clicked only once
+                    once: true
+                  });
             }
 
         }, 500);
@@ -280,7 +282,7 @@
         var functionType = "PUT";
         var functionComplete = "";
         var functionSuccess = function() {
-            alert('Książka została poprawnie zmieniona.'), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
+            /*alert('Książka została poprawnie zmieniona.')*/  tempAlert($('ul#books'), "Książkę poprawnie zmieniono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
         }
         var functionError = function() {
             alert("Wystąpił jakiś błąd!");
@@ -293,6 +295,26 @@
         this.reset(); //resets the form to be empty again - not necessary if page reloads 
     
     }); 
+
+
+
+
+    function tempAlert(element, msg, duration) {
+        element.before($('<div class="tempAlert" style="display: none">' + msg + '</div>'));
+        $('.tempAlert').fadeIn();
+        setTimeout(function() {
+            $('.tempAlert').fadeOut();
+            setTimeout(function() {
+                $('.tempAlert').remove();
+            }, 1000);
+        }, duration);
+
+    }
+
+   
+
+
+
 
 
 
