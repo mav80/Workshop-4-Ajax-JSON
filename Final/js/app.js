@@ -59,8 +59,6 @@
     //exercise 4
 
     function ajaxOnMouseover() {
-
-    
     
         setTimeout(function(){                //used for delay to let the html be prepared by the code from exercise 4
         
@@ -83,7 +81,7 @@
                         divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
                     }
                     var functionError = function() {
-                        alert("Wystąpił jakiś błąd!");
+                        alert("Wystąpił błąd podczas wywołania funkcji ajaxOnMouseover()!");
                     };
 
 
@@ -130,7 +128,7 @@
             /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();;
         }
         var functionError = function() {
-            alert("Wystąpił jakiś błąd!");
+            alert("Wystąpił błąd podczas dodawania książki!");
         };
 
         doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) //call fuction from exercise 7
@@ -169,7 +167,7 @@
                         /*alert('Książka została poprawnie usunięta.'),*/ $('span.spanWholeBook#'+elementId).fadeOut();
                     };
                     var functionError = function() {
-                        alert('Wystąpił jakiś błąd!');
+                        alert('Wystąpił błąd podczas wywołania funkcji ajaxOnDelete()!');
                     };
                     // var functionData = JSON.stringify(newBook);
                     // var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
@@ -246,9 +244,8 @@
                         });
                     }
                     var functionError = function() {
-                        alert("Wystąpił jakiś błąd!");
+                        alert("'Wystąpił błąd podczas wywołania funkcji ajaxOnEdit()!");
                     };
-
 
                     doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError); //call fuction from exercise 7
 
@@ -304,28 +301,33 @@
 
 
 
-    function tempAlert(element, msg, duration) {
-        element.before($('<div class="tempAlert" style="display: none">' + msg + '</div>'));
-        $('.tempAlert').fadeIn();
-        setTimeout(function() {
-            $('.tempAlert').fadeOut();
+    function tempAlert(element, message, duration) {
+
+        //if 'element' argument length is 0 - show error message
+        if(element.length > 0) {
+
+            var tempElement = $('.tempAlert');
+
+            //if mesage element created by this function already exists we just change the text it currently displays    
+            if(tempElement.length < 1) {
+                element.before($('<div class="tempAlert" style="display: none">' + message + '</div>'));
+                $('.tempAlert').fadeIn();
+            } else {
+                tempElement.text(message);
+            }
+
             setTimeout(function() {
-                $('.tempAlert').remove();
-            }, 1000);
-        }, duration);
+                $('.tempAlert').fadeOut();
+                setTimeout(function() {
+                    $('.tempAlert').remove();
+                }, 1000);
+            }, duration);
+
+        } else {
+            console.log("Funkcja tempAlert: nie można znaleć wskazanego elementu.");
+        }   
 
     }
-
-   
-
-
-
-
-
-
-
-
-
 
 
 }); //end of safety zone
