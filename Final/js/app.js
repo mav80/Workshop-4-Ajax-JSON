@@ -113,28 +113,38 @@
         $(newBookForm).find('input[type!=submit]').each(function (index, elem) {
             newBook[elem.name] = elem.value
         });
-        
-        //console.log('Zawartość nowej książki to: ');
-        //console.log(newBook);
+
+        //forbid creating new book if title isn't at least 1 character long
+        if(newBook.title.length > 1) {
+
+            //console.log('Zawartość nowej książki to: ');
+            //console.log(newBook);
 
 
-        var functionDataType = "json";
-        var functionUrl = serverUrl+'add';
-        var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
-        var functionData = JSON.stringify(newBook);
-        var functionType = "POST";
-        var functionComplete = "";
-        var functionSuccess = function() {
-            /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();;
+            var functionDataType = "json";
+            var functionUrl = serverUrl+'add';
+            var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+            var functionData = JSON.stringify(newBook);
+            var functionType = "POST";
+            var functionComplete = "";
+            var functionSuccess = function() {
+                /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();;
+            }
+            var functionError = function() {
+                alert("Wystąpił błąd podczas dodawania książki!");
+            };
+
+            doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) //call fuction from exercise 7
+            
+           
+        } else {
+            tempAlert($('ul#books'), "Nie można utworzyć książki bez tytułu!", 2000)
+
         }
-        var functionError = function() {
-            alert("Wystąpił błąd podczas dodawania książki!");
-        };
 
-        doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError, functionData, functionHeaders) //call fuction from exercise 7
-        
         e.preventDefault(); //without it an error is thrown while sending json
-        //this.reset(); //resets the form to be empty again - not necessary if page reloads    
+        //this.reset(); //resets the form to be empty again - not necessary if page reloads  
+    
     
     }); 
 
