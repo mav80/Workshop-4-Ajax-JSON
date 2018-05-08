@@ -161,7 +161,7 @@
                     var functionUrl = serverUrl+'remove/'+this.id;
                     var functionType = "DELETE";
                     var functionSuccess = function() {
-                        alert('Książka została poprawnie usunięta.'), $('span.spanWholeBook#'+elementId).remove();
+                        alert('Książka została poprawnie usunięta.'), $('span.spanWholeBook#'+elementId).fadeOut();
                     };
                     var functionError = function() {
                         alert('Wystąpił jakiś błąd!');
@@ -230,7 +230,7 @@
                     var functionUrl = serverUrl+this.id;
                     var functionType = "GET";
                     var functionSuccess = function(json) {
-                        $('html,body').scrollTop(0);
+                        $('html,body').animate({scrollTop:0});
                         //console.log("Wysłanie do edycji udane.");
                         //console.log(json);
 
