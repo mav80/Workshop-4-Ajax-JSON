@@ -14,16 +14,18 @@
 
         <h3 style="text-align: center">Warsztat 4 - JavaScript, jQuery, AJAX, JSON, REST</h3>
 
-        <p style="text-align: justify">Celem warsztatów jest napisanie pełnej i funkcjonalnej aplikacji frontendowej do katalogowania książek metodą REST.
-            Projekt składa się z dwóch części:             
-            przygotowany wcześniej serwer implementuje klasę Book mającą swój identyfikator, isbn, tytuł, autora, wydawcę i gatunek, natomiast warstwa kliencka, napisana w HTML-u i JavaScripcie, komunikuje się z serwerem za pomocą AJAX i po najechaniu myszką na element zawierający tytuł książki pobiera w formacie JSON dane o książce i wyświetla je poniżej.</p>
+        <p style="text-align: justify">Celem warsztatu jest napisanie pełnej i funkcjonalnej aplikacji frontendowej do katalogowania
+            książek metodą REST.Projekt składa się z dwóch części: przygotowany wcześniej serwer implementuje klasę Book 
+            mającą swój identyfikator, isbn, tytuł, autora, wydawcę i gatunek, natomiast warstwa kliencka, napisana w HTML-u 
+            oraz JavaScripcie, komunikuje się z serwerem za pomocą AJAX i po najechaniu myszką na element zawierający tytuł książki 
+            pobiera w formacie JSON dane o książce a następnie wyświetla je poniżej.</p>
 
        <center>
         <span style="display: inline-block">
             <form id="newBook">
-                <input type="text" name="title" placeholder="tytuł"><br>
+                <input type="text" name="title" placeholder="tytuł">
                 <input type="text" name="author" placeholder="autor"><br>
-                <input type="text" name="publisher" placeholder="wydawca"><br>
+                <input type="text" name="publisher" placeholder="wydawca">
                 <input type="text" name="type" placeholder="gatunek"><br>
                 <input type="number" name="isbn" placeholder="numer isbn"><br>
                 <input type="submit" id="submitNewBook" value="Utwórz nową książkę">
@@ -32,12 +34,12 @@
 
         <span style="display: inline-block">
             <form id="editBookForm">
-            <input type="text" name="title" placeholder="tytuł"><br>
+            <input type="text" name="title" placeholder="tytuł">
             <input type="text" name="author" placeholder="autor"><br>
-            <input type="text" name="publisher" placeholder="wydawca"><br>
+            <input type="text" name="publisher" placeholder="wydawca">
             <input type="text" name="type" placeholder="gatunek"><br>
-            <input type="number" name="isbn" placeholder="numer isbn"><br>
-            <input type="text" name="id" placeholder="id" style="display: block">
+            <input type="number" name="isbn" placeholder="numer isbn">
+            <input type="text" name="id" placeholder="id"><br>
             <input type="submit" id="submitEditBook" value="Edytuj istniejącą książkę">
             </form>
         </span>
