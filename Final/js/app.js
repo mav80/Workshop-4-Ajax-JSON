@@ -16,35 +16,35 @@
     function buildBookList() {
         
                 setTimeout(function(){
-        
-                    $('ul#books').empty();
-        
-                    var functionDataType = "json";
-                    var functionUrl = serverUrl;
-                    var functionType = "GET";
-                    var functionSuccess = function(json) {
-                        for(let book in json) {
-                            $(bookList).append($('<span>', {'class': 'spanWholeBook', 'id': json[book].id}));
-                            $('span#' + json[book].id).append($('<li>', {'style': 'display: inline', 'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).
-                            append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: ' usuń książkę '})).
-                            append($('<span>', {'class': 'editLink', 'id': json[book].id, 'style': 'color: green', text: 'edytuj książkę'})).
-                            append($('<div>', {'class': 'jsonText', text:' ', })).
-                            append($('<div>',  {'class': 'separator'}));
-                        }
-                    }
-                    var functionError = function() {
-                        alert("Wystąpił błąd podczas budowania listy książek!");
-                    };
-                
-                
-                    doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError); //use function from exercise 7 instead of 3
-        
-                }, 300);
+
+            $('ul#books').empty();
+
+            var functionDataType = "json";
+            var functionUrl = serverUrl;
+            var functionType = "GET";
+            var functionSuccess = function(json) {
+                for(let book in json) {
+                    $(bookList).append($('<span>', {'class': 'spanWholeBook', 'id': json[book].id}));
+                    $('span#' + json[book].id).append($('<li>', {'style': 'display: inline', 'class': 'bookTitle', 'id': json[book].id, text: json[book].title})).
+                    append($('<span>', {'class': 'deleteLink', 'id': json[book].id, 'style': 'color: red', text: ' usuń książkę '})).
+                    append($('<span>', {'class': 'editLink', 'id': json[book].id, 'style': 'color: green', text: 'edytuj książkę'})).
+                    append($('<div>', {'class': 'jsonText', text:' ', })).
+                    append($('<div>',  {'class': 'separator'}));
+                }
             }
+            var functionError = function() {
+                alert("Wystąpił błąd podczas budowania listy książek!");
+            };
+        
+        
+            doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError); //use function from exercise 7 instead of 3
+
+        }, 300);
+    }
         
         
         
-            buildBookList();
+    buildBookList();
 
 
 
@@ -81,7 +81,7 @@
                         divToUpdate.innerText = 'autor: ' + json.author + ', wydawca: ' + json.publisher + ', gatunek: ' + json.type + ', isbn: ' + json.isbn;
                     }
                     var functionError = function() {
-                        alert("Wystąpił błąd podczas wywołania funkcji ajaxOnMouseover()!");
+                        console.log("Wystąpił błąd podczas wywołania funkcji ajaxOnMouseover()!");
                     };
 
 
@@ -90,7 +90,7 @@
                 });
             }
         
-        }, 500);
+        }, 1000);
 
     }
 
@@ -127,7 +127,7 @@
             var functionType = "POST";
             var functionComplete = "";
             var functionSuccess = function() {
-                /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();;
+                /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
             }
             var functionError = function() {
                 alert("Wystąpił błąd podczas dodawania książki!");
@@ -189,7 +189,7 @@
                   });
             }
 
-        }, 500);
+        }, 1000);
 
     }
 
@@ -261,7 +261,7 @@
                 });
             }
 
-        }, 500);
+        }, 1000);
 
     }
 
@@ -337,6 +337,41 @@
         }   
 
     }
+
+
+
+
+
+    //Handle the reset form button
+        
+        var resetButton = $('#bookResetButton');
+        //console.log($('ul#books'));
+
+        resetButton.on('click', function(e) {
+
+            var functionDataType = "text";
+            var functionUrl = serverUrl+'remove/all';
+            var functionType = "DELETE";
+            var functionSuccess = function() {
+                tempAlert($('ul#books'), "Listę książek poprawnie zresetowano.", 2000),
+                $('ul#books').fadeOut(),
+                buildBookList(), 
+                ajaxOnMouseover(), 
+                ajaxOnDelete(), 
+                ajaxOnEdit(),
+                $('ul#books').fadeIn();
+            };
+            var functionError = function() {
+                alert('Wystąpił błąd podczas resetowania listy ksiązek');
+            };
+
+            doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
+            e.preventDefault(); //without it an error is thrown while sending json
+
+        })
+
+
+
 
 
 }); //end of safety zone
