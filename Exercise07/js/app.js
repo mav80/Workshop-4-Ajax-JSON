@@ -59,15 +59,15 @@
     
         setTimeout(function(){                //used for delay to let the html be prepared by the code from exercise 4
         
-            var bookTitles = $('.bookTitle');
+            var bookTitles = $('.spanWholeBook');
             //console.log(bookTitles);
             
             for (var i = 0; i < bookTitles.length; i++) {
-                bookTitles[i].addEventListener('mouseover', function () {
+                bookTitles[i].addEventListener('mouseenter', function () {
             
                     var allDivs = $('div');
                     //var divToUpdate = this.nextElementSibling.nextElementSibling;
-                    var divToUpdate = $(this).siblings('.jsonText')[0];
+                    var divToUpdate = $(this).find('.jsonText')[0];
 
                     allDivs.text(' ');
 
@@ -280,7 +280,7 @@
         var functionType = "PUT";
         var functionComplete = "";
         var functionSuccess = function() {
-            alert('Nowa książka została poprawnie zmieniona.'), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
+            alert('Książka została poprawnie zmieniona.'), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
         }
         var functionError = function() {
             alert("Wystąpił jakiś błąd!");
