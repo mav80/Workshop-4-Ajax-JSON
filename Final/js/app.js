@@ -15,7 +15,7 @@
 
     function buildBookList() {
         
-                setTimeout(function(){
+        setTimeout(function(){
 
             $('ul#books').empty();
 
@@ -33,7 +33,7 @@
                 }
             }
             var functionError = function() {
-                alert("Wystąpił błąd podczas budowania listy książek!");
+                alert("Wystąpił błąd podczas budowania listy książek! Czy serwer jest włączony?");
             };
         
         
@@ -64,14 +64,17 @@
         
             var bookTitles = $('.spanWholeBook');
             //console.log(bookTitles);
-            
-            for (var i = 0; i < bookTitles.length; i++) {
-                bookTitles[i].addEventListener('mouseenter', function () {
-            
-                    var allDivs = $('div');
-                    //var divToUpdate = this.nextElementSibling.nextElementSibling;
-                    var divToUpdate = $(this).find('.jsonText')[0];
 
+            //make sure that there is only one event on element - may be duplicated if user quickly presses button and creates many new books
+            var events = $._data(bookTitles[0], "events");
+            if(events == null) {
+
+                bookTitles.mouseenter(function() {
+
+                    console.log("Działa!");
+
+                    var allDivs = $('div');
+                    var divToUpdate = $(this).find('.jsonText')[0];
                     allDivs.text(' ');
 
                     var functionDataType = "json";
@@ -84,10 +87,10 @@
                         console.log("Wystąpił błąd podczas wywołania funkcji ajaxOnMouseover()!");
                     };
 
-
                     doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError); //call fuction from exercise 7
             
                 });
+
             }
         
         }, 1000);
@@ -127,7 +130,11 @@
             var functionType = "POST";
             var functionComplete = "";
             var functionSuccess = function() {
-                /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000), buildBookList(), ajaxOnMouseover(), ajaxOnDelete(), ajaxOnEdit();
+                /*alert('Nowa książka została poprawnie utworzona.'),*/ tempAlert($('ul#books'), "Książkę poprawnie utworzono.", 2000),
+                buildBookList(),
+                ajaxOnMouseover(),
+                ajaxOnDelete(),
+                ajaxOnEdit();
             }
             var functionError = function() {
                 alert("Wystąpił błąd podczas dodawania książki!");
@@ -162,32 +169,34 @@
             var deleteLinks = $('.deleteLink');
             //console.log(deleteLinks);
 
+            var events = $._data(deleteLinks[0], "events");
 
-            for (var i = 0; i < deleteLinks.length; i++) {
-                deleteLinks[i].addEventListener('click', function (e) {
+            if(events == null) {        
 
-                    //console.log(this.id);
-                    var elementId = this.id;
+                deleteLinks.one( "click", function(e) {
 
-                    var functionDataType = "text";
-                    var functionUrl = serverUrl+'remove/'+this.id;
-                    var functionType = "DELETE";
-                    var functionSuccess = function() {
-                        /*alert('Książka została poprawnie usunięta.'),*/ $('span.spanWholeBook#'+elementId).fadeOut();
-                    };
-                    var functionError = function() {
-                        alert('Wystąpił błąd podczas wywołania funkcji ajaxOnDelete()!');
-                    };
-                    // var functionData = JSON.stringify(newBook);
-                    // var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+                var elementId = this.id;
+                
+                var functionDataType = "text";
+                var functionUrl = serverUrl+'remove/'+this.id;
+                var functionType = "DELETE";
+                var functionSuccess = function() {
+                    /*alert('Książka została poprawnie usunięta.'),*/ $('span.spanWholeBook#'+elementId).fadeOut();
+                };
+                var functionError = function() {
+                    alert('Wystąpił błąd podczas wywołania funkcji ajaxOnDelete()!');
+                };
+                // var functionData = JSON.stringify(newBook);
+                // var functionHeaders = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
 
-                    doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
-                    e.preventDefault(); //without it an error is thrown while sending json
+                doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError) //call fuction from exercise 7
+                e.preventDefault(); //without it an error is thrown while sending json
 
-                }, { // here we make sure delete button can be clicked only once
-                    once: true
-                  });
-            }
+
+                
+                });
+
+            } 
 
         }, 1000);
 
@@ -237,8 +246,11 @@
             
             var editLinks = $('.editLink');
 
-            for (var i = 0; i < editLinks.length; i++) {
-                editLinks[i].addEventListener('click', function (e) {
+            var events = $._data(editLinks[0], "events");
+
+            if(events == null) {  
+
+                editLinks.click(function (e) {
 
                     var functionDataType = "json";
                     var functionUrl = serverUrl+this.id;
@@ -259,6 +271,7 @@
                     doAjaxJSON(functionDataType, functionUrl, functionType, functionSuccess, functionError); //call fuction from exercise 7
 
                 });
+
             }
 
         }, 1000);
@@ -310,38 +323,6 @@
 
 
 
-    function tempAlert(element, message, duration) {
-
-        //if 'element' argument length is 0 - show error message
-        if(element.length > 0) {
-
-            var tempElement = $('.tempAlert');
-
-            //if mesage element created by this function already exists we just change the text it currently displays    
-            if(tempElement.length < 1) {
-                element.before($('<div class="tempAlert" style="display: none">' + message + '</div>'));
-                $('.tempAlert').fadeIn();
-            } else {
-                tempElement.text(message);
-            }
-
-            setTimeout(function() {
-                $('.tempAlert').fadeOut();
-                setTimeout(function() {
-                    $('.tempAlert').remove();
-                }, 1000);
-            }, duration);
-
-        } else {
-            console.log("Funkcja tempAlert: nie można znaleźć wskazanego elementu.");
-        }   
-
-    }
-
-
-
-
-
     //Handle the reset form button
         
         var resetButton = $('#bookResetButton');
@@ -369,6 +350,40 @@
             e.preventDefault(); //without it an error is thrown while sending json
 
         })
+
+
+
+
+
+
+
+    function tempAlert(element, message, duration) {
+        
+        //if 'element' argument length is 0 - show error message
+        if(element.length > 0) {
+
+            var tempElement = $('.tempAlert');
+
+            //if mesage element created by this function already exists we just change the text it currently displays    
+            if(tempElement.length < 1) {
+                element.before($('<div class="tempAlert" style="display: none">' + message + '</div>'));
+                $('.tempAlert').fadeIn();
+            } else {
+                tempElement.text(message);
+            }
+
+            setTimeout(function() {
+                $('.tempAlert').fadeOut();
+                setTimeout(function() {
+                    $('.tempAlert').remove();
+                }, 1000);
+            }, duration);
+
+        } else {
+            console.log("Funkcja tempAlert: nie można znaleźć wskazanego elementu.");
+        }   
+
+    }
 
 
 
