@@ -1,6 +1,7 @@
 li {
 
     color: blue;
+    font-weight: bold;
 }
 
 div
@@ -35,4 +36,8 @@ form {
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 8px;
+}
+
+.sendButton {
+    margin-top: 8px;
 }
